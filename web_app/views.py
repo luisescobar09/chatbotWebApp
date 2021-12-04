@@ -13,7 +13,7 @@ def get_device_token(request, device_token):
 	if str(decoded).count(device_token) == 0:
 		data = {
 			'device_token' : device_token
-		}
+		} 
 		post_device = requests.post('https://chatbot-af6db-default-rtdb.firebaseio.com/devices_allowed.json', data = json.dumps(data))
 		if post_device.status_code == 200:
 			result['status'] : 200
