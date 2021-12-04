@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+<h1 style="font-size:40px">
+	¡Hola {{ user.first_name }}!
+</h1>
+<br>
+{% if success %}
+<div class="alert alert-success text-center" role="alert">
+  Contacto enviado a solicitudes leídas. <a href="/read">Ver leídos</a>
+</div>
+{% endif %}
+	<h2 style="font-size:26px">
+		Solicitudes de contacto no leídas:
+	</h2>
+	<br> 
+	<table class="table table-hover table-bordered">
+		<thead >
+			<tr>
+			<th scope="col" class="text-center">Fecha</th>
+			<th scope="col" class="text-center">Nombre</th>
+			<th scope="col" class="text-center">Telefóno</th>
+			<th scope="col" class="text-center">Contactar</th>
+			<th scope="col" class="text-center">Conversación</th>
+			<th scope="col" class="text-center">Marcar como leído</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for key,value in no_leidos.items %}
+			<tr class="text-center">
+			<th scope="row" class="text-center">{{value.fecha}}</th>
+			<td>{{value.nombre}}</td>
+			<td>{{value.telefono}}</td>
+			<td> <a href="tel:+52{{value.telefono}}" target="_blank" class="btn btn-link link-secondary btn-lg"  style="font-size: 20px !Important;"><i class="fas fa-phone-alt"></i> Llamar</a>
+			<a href="https://api.whatsapp.com/send?phone=+52{{value.telefono}}" target="_blank" class="btn btn-link link-success btn-lg"  style="font-size: 20px !Important;"><i class="fab fa-whatsapp"></i> WhatsApp</a> </td>
+			<td> <a href="{{value.conversacion}}" target="_blank" class="btn btn-link link-danger btn-lg"  style="font-size: 20px !Important;"><i class="far fa-envelope"></i> Ver</a> </td>
+
+			<td> 
+				<form action="{% url 'delete_unread' key %}" method="POST">
+						{% csrf_token %}
+							<button class="btn btn-link link-primary btn-lg"  style="font-size: 24.5px !Important;"><i class="far fa-check-square"></i></button> 
+				</form>
+			</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock content %}

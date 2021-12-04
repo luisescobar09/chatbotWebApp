@@ -1,0 +1,24 @@
+{% extends 'accounts/base.html' %} {% load static %} {% block content %}
+
+<div class="login-page">
+  <div class="form">
+	  {% if request.user.is_authenticated %}
+    <form class="login-form" method="POST">
+		{% csrf_token %}
+		<div class="alert alert-danger" role="alert" style="font-size:22px;">
+		¿Deseas cerrar sesión?
+	</div>
+      <button type="submit">Cerrar sesión</button>
+    </form> 
+  </div>
+ 
+</div>
+{% else %}
+
+	<div class="alert alert-danger" role="alert" style="font-size:22px;">
+		No estás autenticado. <br> ¿Deseas <a href="/login">iniciar sesión</a>?
+	</div>
+
+{% endif %}
+
+{% endblock content %}
